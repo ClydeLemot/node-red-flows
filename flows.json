@@ -1,0 +1,2382 @@
+[
+    {
+        "id": "1f0b7fe993f40336",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": true,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "codex_clean_flow",
+        "type": "tab",
+        "label": "Flow 1 - cleaned draft",
+        "disabled": false,
+        "info": "Cleaned clone generated from Flow 1. Original flow is untouched. Enable this tab only after checking it in the Node-RED editor."
+    },
+    {
+        "id": "e8add8b2ffa395eb",
+        "type": "mqtt-broker",
+        "name": "Name: Mosquitto local",
+        "broker": "localhost",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "mqtt_localhost",
+        "type": "mqtt-broker",
+        "name": "MQTT localhost",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "1ed28f5f5beecc56",
+        "type": "mqtt in",
+        "z": "1f0b7fe993f40336",
+        "name": "mqtt mithören",
+        "topic": "zigbee2mqtt/presence",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "e8add8b2ffa395eb",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 300,
+        "y": 2620,
+        "wires": [
+            [
+                "491e4731321d64ee"
+            ]
+        ]
+    },
+    {
+        "id": "8cfdba62dfcc348b",
+        "type": "mqtt out",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "topic": "zigbee2mqtt/stecker/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e8add8b2ffa395eb",
+        "x": 570,
+        "y": 1940,
+        "wires": []
+    },
+    {
+        "id": "50312d7eed2c529f",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"state\":\"OFF\"}",
+        "payloadType": "json",
+        "x": 250,
+        "y": 2100,
+        "wires": [
+            [
+                "8cfdba62dfcc348b"
+            ]
+        ]
+    },
+    {
+        "id": "47afab5f79b52a78",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"state\":\"ON\"}",
+        "payloadType": "json",
+        "x": 250,
+        "y": 2020,
+        "wires": [
+            [
+                "8cfdba62dfcc348b"
+            ]
+        ]
+    },
+    {
+        "id": "eb823c006169ef33",
+        "type": "sunrise",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "lat": "48.7758",
+        "lon": "9.1829",
+        "start": "sunrise",
+        "end": "sunset",
+        "soff": 0,
+        "eoff": 0,
+        "sendAtStartup": true,
+        "x": 90,
+        "y": 1840,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "3435472dceed97c3",
+        "type": "switch",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 230,
+        "y": 1560,
+        "wires": [
+            [
+                "b9605d2975afe8a5"
+            ],
+            [
+                "740905af21435d9e"
+            ]
+        ]
+    },
+    {
+        "id": "b9605d2975afe8a5",
+        "type": "change",
+        "z": "1f0b7fe993f40336",
+        "name": "State On",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"state\":\"ON\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 1600,
+        "wires": [
+            [
+                "8cfdba62dfcc348b"
+            ]
+        ]
+    },
+    {
+        "id": "740905af21435d9e",
+        "type": "change",
+        "z": "1f0b7fe993f40336",
+        "name": "State off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"state\":\"OFF\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 1680,
+        "wires": [
+            [
+                "8cfdba62dfcc348b"
+            ]
+        ]
+    },
+    {
+        "id": "43e4b47c0dfdcf99",
+        "type": "mqtt out",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "topic": "zigbee2mqtt/lampe/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e8add8b2ffa395eb",
+        "x": 1410,
+        "y": 2080,
+        "wires": []
+    },
+    {
+        "id": "a2379a5ff297f6e6",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"state\":\"ON\"}",
+        "payloadType": "json",
+        "x": 310,
+        "y": 2200,
+        "wires": [
+            [
+                "43e4b47c0dfdcf99"
+            ]
+        ]
+    },
+    {
+        "id": "a01801cc43b4b0ad",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"state\":\"OFF\"}",
+        "payloadType": "json",
+        "x": 310,
+        "y": 2240,
+        "wires": [
+            [
+                "43e4b47c0dfdcf99"
+            ]
+        ]
+    },
+    {
+        "id": "8ab9448301ee87b0",
+        "type": "change",
+        "z": "1f0b7fe993f40336",
+        "name": "State off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"state\":\"OFF\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 2400,
+        "wires": [
+            [
+                "43e4b47c0dfdcf99"
+            ]
+        ]
+    },
+    {
+        "id": "63d0854ec53fa277",
+        "type": "delay",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "60",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 230,
+        "y": 2360,
+        "wires": [
+            [
+                "8ab9448301ee87b0"
+            ]
+        ]
+    },
+    {
+        "id": "ad11fb33a9eb7a9d",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 2460,
+        "wires": [
+            [
+                "63d0854ec53fa277"
+            ]
+        ]
+    },
+    {
+        "id": "f9d6d18154ce8c55",
+        "type": "debug",
+        "z": "1f0b7fe993f40336",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 2600,
+        "wires": []
+    },
+    {
+        "id": "491e4731321d64ee",
+        "type": "switch",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "property": "payload.occupancy",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 150,
+        "y": 2540,
+        "wires": [
+            [
+                "072ca8db14cf7022"
+            ],
+            [
+                "8ab9448301ee87b0"
+            ]
+        ]
+    },
+    {
+        "id": "072ca8db14cf7022",
+        "type": "change",
+        "z": "1f0b7fe993f40336",
+        "name": "State on",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"state\":\"ON\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 2460,
+        "wires": [
+            [
+                "43e4b47c0dfdcf99"
+            ]
+        ]
+    },
+    {
+        "id": "32892162fb53d4e7",
+        "type": "rbe",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 350,
+        "y": 2780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bdb39725d02cf9ce",
+        "type": "function",
+        "z": "1f0b7fe993f40336",
+        "name": "function 1",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 2980,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b8177bb9e4d75827",
+        "type": "smooth",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "property": "payload",
+        "action": "mean",
+        "count": "10",
+        "round": "",
+        "mult": "single",
+        "reduce": false,
+        "x": 320,
+        "y": 3120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e2e7f5ec55927d60",
+        "type": "trigger",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "op1": "256",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "250",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 100,
+        "y": 3120,
+        "wires": [
+            [
+                "b8177bb9e4d75827"
+            ]
+        ]
+    },
+    {
+        "id": "32364326f3be9026",
+        "type": "range",
+        "z": "1f0b7fe993f40336",
+        "minin": "",
+        "maxin": "",
+        "minout": "",
+        "maxout": "",
+        "action": "scale",
+        "round": false,
+        "property": "payload",
+        "name": "",
+        "x": 130,
+        "y": 3000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "inject_next_color",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "Nächste Farbe",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 540,
+        "y": 1380,
+        "wires": [
+            [
+                "function_next_color"
+            ]
+        ]
+    },
+    {
+        "id": "function_next_color",
+        "type": "function",
+        "z": "1f0b7fe993f40336",
+        "name": "Farbe weiter",
+        "func": "const colors = [\n    { name: \"rot\",     hue: 0,   saturation: 100 },\n    { name: \"orange\",  hue: 30,  saturation: 100 },\n    { name: \"gelb\",    hue: 60,  saturation: 100 },\n    { name: \"gruen\",   hue: 120, saturation: 100 },\n    { name: \"cyan\",    hue: 180, saturation: 100 },\n    { name: \"blau\",    hue: 240, saturation: 100 },\n    { name: \"violett\", hue: 280, saturation: 100 },\n    { name: \"pink\",    hue: 320, saturation: 100 }\n];\n\nlet index = flow.get(\"lamp_color_index\") || 0;\nlet color = colors[index];\n\nmsg.topic = \"zigbee2mqtt/lampe/set\";\nmsg.payload = {\n    state: \"ON\",\n    brightness: 180,\n    color: {\n        hue: color.hue,\n        saturation: color.saturation\n    },\n    transition: 1\n};\n\nnode.status({\n    fill: \"blue\",\n    shape: \"dot\",\n    text: color.name\n});\n\nflow.set(\"lamp_color_index\", (index + 1) % colors.length);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710.7187805175781,
+        "y": 1359.75,
+        "wires": [
+            [
+                "mqtt_lampe_out",
+                "debug_color_payload"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_lampe_out",
+        "type": "mqtt out",
+        "z": "1f0b7fe993f40336",
+        "name": "an Lampe senden",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "mqtt_localhost",
+        "x": 950.7187805175781,
+        "y": 1339.75,
+        "wires": []
+    },
+    {
+        "id": "debug_color_payload",
+        "type": "debug",
+        "z": "1f0b7fe993f40336",
+        "name": "Debug Farbe",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930.7187805175781,
+        "y": 1399.75,
+        "wires": []
+    },
+    {
+        "id": "scene_rainbow_start",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "🌈 Rainbow START",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"rainbow_start\"}",
+        "payloadType": "json",
+        "x": 369.984375,
+        "y": 825.3438110351562,
+        "wires": [
+            [
+                "lamp_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "scene_rainbow_stop",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "⛔ Rainbow STOP",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"rainbow_stop\"}",
+        "payloadType": "json",
+        "x": 369.984375,
+        "y": 865.3438110351562,
+        "wires": [
+            [
+                "lamp_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "scene_rainbow_tick",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "Rainbow Tick alle 2s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"rainbow_tick\"}",
+        "payloadType": "json",
+        "x": 389.984375,
+        "y": 905.3438110351562,
+        "wires": [
+            [
+                "lamp_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "scene_chill",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "🟠 Chill Warm",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"chill\"}",
+        "payloadType": "json",
+        "x": 349.984375,
+        "y": 965.3438110351562,
+        "wires": [
+            [
+                "lamp_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "scene_bath_bright",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "🚿 Bad Hell",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"bath_bright\"}",
+        "payloadType": "json",
+        "x": 329.984375,
+        "y": 1005.3438110351562,
+        "wires": [
+            [
+                "lamp_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "scene_night",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "🌙 Nachtmodus",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"night\"}",
+        "payloadType": "json",
+        "x": 349.984375,
+        "y": 1045.3438110351562,
+        "wires": [
+            [
+                "lamp_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "scene_cyberpunk",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "🟣 Cyberpunk",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"cyberpunk\"}",
+        "payloadType": "json",
+        "x": 349.984375,
+        "y": 1085.3438110351562,
+        "wires": [
+            [
+                "lamp_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "scene_alarm",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "🔴 Alarm Rot",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"alarm\"}",
+        "payloadType": "json",
+        "x": 329.984375,
+        "y": 1125.3438110351562,
+        "wires": [
+            [
+                "lamp_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "scene_candle",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "🕯️ Kerze",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"candle\"}",
+        "payloadType": "json",
+        "x": 309.984375,
+        "y": 1165.3438110351562,
+        "wires": [
+            [
+                "lamp_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "scene_party",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "⚡ Party Pulse",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"party\"}",
+        "payloadType": "json",
+        "x": 349.984375,
+        "y": 1205.3438110351562,
+        "wires": [
+            [
+                "lamp_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "lamp_scene_engine",
+        "type": "function",
+        "z": "1f0b7fe993f40336",
+        "name": "Lampenszenen + Rainbow",
+        "func": "const cmd = msg.payload && msg.payload.cmd;\n\nconst rainbow = [\n    { name: \"rot\",     hue: 0,   saturation: 100 },\n    { name: \"orange\",  hue: 30,  saturation: 100 },\n    { name: \"gelb\",    hue: 60,  saturation: 100 },\n    { name: \"gruen\",   hue: 120, saturation: 100 },\n    { name: \"cyan\",    hue: 180, saturation: 100 },\n    { name: \"blau\",    hue: 240, saturation: 100 },\n    { name: \"violett\", hue: 280, saturation: 100 },\n    { name: \"pink\",    hue: 320, saturation: 100 }\n];\n\nfunction sendColor(name, hue, saturation, brightness, transition = 1) {\n    msg.payload = {\n        state: \"ON\",\n        brightness: brightness,\n        color: {\n            hue: hue,\n            saturation: saturation\n        },\n        transition: transition\n    };\n    node.status({ fill: \"blue\", shape: \"dot\", text: name });\n    return msg;\n}\n\nfunction sendWhite(name, colorTemp, brightness, transition = 1) {\n    msg.payload = {\n        state: \"ON\",\n        brightness: brightness,\n        color_temp: colorTemp,\n        transition: transition\n    };\n    node.status({ fill: \"yellow\", shape: \"dot\", text: name });\n    return msg;\n}\n\nif (cmd === \"rainbow_start\") {\n    flow.set(\"rainbow_running\", true);\n    flow.set(\"rainbow_index\", 0);\n    const c = rainbow[0];\n    return sendColor(\"Rainbow: \" + c.name, c.hue, c.saturation, 180, 1);\n}\n\nif (cmd === \"rainbow_stop\") {\n    flow.set(\"rainbow_running\", false);\n    node.status({ fill: \"grey\", shape: \"ring\", text: \"Rainbow aus\" });\n    return null;\n}\n\nif (cmd === \"rainbow_tick\") {\n    if (!flow.get(\"rainbow_running\")) {\n        return null;\n    }\n    let index = flow.get(\"rainbow_index\") || 0;\n    const c = rainbow[index];\n    flow.set(\"rainbow_index\", (index + 1) % rainbow.length);\n    return sendColor(\"Rainbow: \" + c.name, c.hue, c.saturation, 180, 1.5);\n}\n\nif (cmd === \"chill\") {\n    flow.set(\"rainbow_running\", false);\n    return sendWhite(\"Chill warm\", 370, 120, 1);\n}\n\nif (cmd === \"bath_bright\") {\n    flow.set(\"rainbow_running\", false);\n    return sendWhite(\"Bad hell\", 250, 254, 0.5);\n}\n\nif (cmd === \"night\") {\n    flow.set(\"rainbow_running\", false);\n    return sendColor(\"Nachtmodus\", 30, 100, 25, 1);\n}\n\nif (cmd === \"cyberpunk\") {\n    flow.set(\"rainbow_running\", false);\n    return sendColor(\"Cyberpunk\", 285, 100, 200, 1);\n}\n\nif (cmd === \"alarm\") {\n    flow.set(\"rainbow_running\", false);\n    return sendColor(\"Alarm rot\", 0, 100, 254, 0.2);\n}\n\nif (cmd === \"candle\") {\n    flow.set(\"rainbow_running\", false);\n    return sendColor(\"Kerze\", 28, 100, 70, 2);\n}\n\nif (cmd === \"party\") {\n    flow.set(\"rainbow_running\", false);\n    const hues = [0, 300, 220, 120, 40];\n    const randomHue = hues[Math.floor(Math.random() * hues.length)];\n    return sendColor(\"Party\", randomHue, 100, 254, 0.1);\n}\n\nnode.status({ fill: \"red\", shape: \"ring\", text: \"unbekannt: \" + cmd });\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 1120,
+        "wires": [
+            [
+                "lamp_scene_debug",
+                "43e4b47c0dfdcf99"
+            ]
+        ]
+    },
+    {
+        "id": "lamp_scene_debug",
+        "type": "debug",
+        "z": "1f0b7fe993f40336",
+        "name": "Debug Lampenszene",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 929.984375,
+        "y": 1065.3438110351562,
+        "wires": []
+    },
+    {
+        "id": "scene_v2_rainbow_start",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "🌈 Rainbow START",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"rainbow_start\"}",
+        "payloadType": "json",
+        "x": 1110,
+        "y": 1580,
+        "wires": [
+            [
+                "lamp_scene_engine_v2"
+            ]
+        ]
+    },
+    {
+        "id": "scene_v2_rainbow_stop",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "⛔ Rainbow STOP",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"rainbow_stop\"}",
+        "payloadType": "json",
+        "x": 1110,
+        "y": 1620,
+        "wires": [
+            [
+                "lamp_scene_engine_v2"
+            ]
+        ]
+    },
+    {
+        "id": "scene_v2_rainbow_tick",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "⏱ Rainbow Timing alle 1s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"rainbow_tick\"}",
+        "payloadType": "json",
+        "x": 1170,
+        "y": 1660,
+        "wires": [
+            [
+                "lamp_scene_engine_v2"
+            ]
+        ]
+    },
+    {
+        "id": "scene_v2_blue_night",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "🔵 Nachtmodus Blau",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"blue_night\"}",
+        "payloadType": "json",
+        "x": 1130,
+        "y": 1720,
+        "wires": [
+            [
+                "lamp_scene_engine_v2"
+            ]
+        ]
+    },
+    {
+        "id": "scene_v2_candle_start",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "🕯️ Kerze START",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"candle_start\"}",
+        "payloadType": "json",
+        "x": 1100,
+        "y": 1780,
+        "wires": [
+            [
+                "lamp_scene_engine_v2"
+            ]
+        ]
+    },
+    {
+        "id": "scene_v2_candle_stop",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "⛔ Kerze STOP",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"candle_stop\"}",
+        "payloadType": "json",
+        "x": 1100,
+        "y": 1820,
+        "wires": [
+            [
+                "lamp_scene_engine_v2"
+            ]
+        ]
+    },
+    {
+        "id": "scene_v2_candle_tick",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "⏱ Kerzen Timing alle 0.7s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "0.7",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"candle_tick\"}",
+        "payloadType": "json",
+        "x": 1180,
+        "y": 1860,
+        "wires": [
+            [
+                "lamp_scene_engine_v2"
+            ]
+        ]
+    },
+    {
+        "id": "scene_v2_bath_bright",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "🚿 Bad Hell",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"bath_bright\"}",
+        "payloadType": "json",
+        "x": 1080,
+        "y": 1920,
+        "wires": [
+            [
+                "lamp_scene_engine_v2"
+            ]
+        ]
+    },
+    {
+        "id": "scene_v2_off",
+        "type": "inject",
+        "z": "1f0b7fe993f40336",
+        "name": "💡 Lampe AUS",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"off\"}",
+        "payloadType": "json",
+        "x": 1090,
+        "y": 1960,
+        "wires": [
+            [
+                "lamp_scene_engine_v2"
+            ]
+        ]
+    },
+    {
+        "id": "lamp_scene_engine_v2",
+        "type": "function",
+        "z": "1f0b7fe993f40336",
+        "name": "Lampenszenen V2 konfigurierbar",
+        "func": "const cmd = msg.payload && msg.payload.cmd;\n\n// === ANPASSBARE WERTE ===\nconst RAINBOW_BRIGHTNESS = 170;\nconst RAINBOW_SATURATION = 100;\nconst RAINBOW_HUE_STEP = 4;       // kleiner = ruhiger, größer = schneller/fetziger\nconst RAINBOW_TRANSITION = 1.2;   // sollte ungefähr zum Timing passen\n\nconst BLUE_NIGHT_HUE = 235;\nconst BLUE_NIGHT_SATURATION = 100;\nconst BLUE_NIGHT_BRIGHTNESS = 35; // 1-254\n\nconst CANDLE_HUE_MIN = 22;\nconst CANDLE_HUE_MAX = 38;\nconst CANDLE_BRIGHTNESS_MIN = 35;\nconst CANDLE_BRIGHTNESS_MAX = 95;\nconst CANDLE_TRANSITION_MIN = 0.15;\nconst CANDLE_TRANSITION_MAX = 0.8;\n\nfunction randomBetween(min, max) {\n    return min + Math.random() * (max - min);\n}\n\nfunction randomInt(min, max) {\n    return Math.round(randomBetween(min, max));\n}\n\nfunction stopAnimations() {\n    flow.set(\"rainbow_running_v2\", false);\n    flow.set(\"candle_running_v2\", false);\n}\n\nfunction sendColor(label, hue, saturation, brightness, transition) {\n    msg.payload = {\n        state: \"ON\",\n        brightness: brightness,\n        color: {\n            hue: hue,\n            saturation: saturation\n        },\n        transition: transition\n    };\n    node.status({ fill: \"blue\", shape: \"dot\", text: label });\n    return msg;\n}\n\nfunction sendWhite(label, colorTemp, brightness, transition) {\n    msg.payload = {\n        state: \"ON\",\n        brightness: brightness,\n        color_temp: colorTemp,\n        transition: transition\n    };\n    node.status({ fill: \"yellow\", shape: \"dot\", text: label });\n    return msg;\n}\n\nif (cmd === \"rainbow_start\") {\n    flow.set(\"candle_running_v2\", false);\n    flow.set(\"rainbow_running_v2\", true);\n\n    let hue = flow.get(\"rainbow_hue_v2\");\n    if (typeof hue !== \"number\") hue = 0;\n\n    return sendColor(\"Rainbow läuft\", hue, RAINBOW_SATURATION, RAINBOW_BRIGHTNESS, RAINBOW_TRANSITION);\n}\n\nif (cmd === \"rainbow_stop\") {\n    flow.set(\"rainbow_running_v2\", false);\n    node.status({ fill: \"grey\", shape: \"ring\", text: \"Rainbow aus\" });\n    return null;\n}\n\nif (cmd === \"rainbow_tick\") {\n    if (!flow.get(\"rainbow_running_v2\")) return null;\n\n    let hue = flow.get(\"rainbow_hue_v2\");\n    if (typeof hue !== \"number\") hue = 0;\n\n    hue = (hue + RAINBOW_HUE_STEP) % 360;\n    flow.set(\"rainbow_hue_v2\", hue);\n\n    return sendColor(\"Rainbow hue \" + Math.round(hue), hue, RAINBOW_SATURATION, RAINBOW_BRIGHTNESS, RAINBOW_TRANSITION);\n}\n\nif (cmd === \"blue_night\") {\n    stopAnimations();\n    return sendColor(\"Blauer Nachtmodus\", BLUE_NIGHT_HUE, BLUE_NIGHT_SATURATION, BLUE_NIGHT_BRIGHTNESS, 1.5);\n}\n\nif (cmd === \"candle_start\") {\n    flow.set(\"rainbow_running_v2\", false);\n    flow.set(\"candle_running_v2\", true);\n    return sendColor(\"Kerze startet\", 30, 100, 65, 0.3);\n}\n\nif (cmd === \"candle_stop\") {\n    flow.set(\"candle_running_v2\", false);\n    node.status({ fill: \"grey\", shape: \"ring\", text: \"Kerze aus\" });\n    return null;\n}\n\nif (cmd === \"candle_tick\") {\n    if (!flow.get(\"candle_running_v2\")) return null;\n\n    const hue = randomInt(CANDLE_HUE_MIN, CANDLE_HUE_MAX);\n    const brightness = randomInt(CANDLE_BRIGHTNESS_MIN, CANDLE_BRIGHTNESS_MAX);\n    const transition = randomBetween(CANDLE_TRANSITION_MIN, CANDLE_TRANSITION_MAX);\n\n    return sendColor(\"Kerze \" + brightness, hue, 100, brightness, transition);\n}\n\nif (cmd === \"bath_bright\") {\n    stopAnimations();\n    return sendWhite(\"Bad hell\", 250, 254, 0.5);\n}\n\nif (cmd === \"off\") {\n    stopAnimations();\n    msg.payload = { state: \"OFF\" };\n    node.status({ fill: \"grey\", shape: \"ring\", text: \"aus\" });\n    return msg;\n}\n\nnode.status({ fill: \"red\", shape: \"ring\", text: \"unbekannt: \" + cmd });\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1280,
+        "y": 1760,
+        "wires": [
+            [
+                "lamp_scene_v2_debug",
+                "43e4b47c0dfdcf99"
+            ]
+        ]
+    },
+    {
+        "id": "lamp_scene_v2_debug",
+        "type": "debug",
+        "z": "1f0b7fe993f40336",
+        "name": "Debug Szenen V2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1730,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "19789a970771c56c",
+        "type": "change",
+        "z": "1f0b7fe993f40336",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "auto_day_enabled",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 260,
+        "y": 1900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "codex_clean_comment_header",
+        "type": "comment",
+        "z": "codex_clean_flow",
+        "name": "Cleaned clone - disabled",
+        "info": "Original Flow 1 remains active. This tab is a safe cleaned draft.",
+        "x": 210,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "codex_clean_comment_stecker",
+        "type": "comment",
+        "z": "codex_clean_flow",
+        "name": "Stecker manual",
+        "info": "",
+        "x": 170,
+        "y": 150,
+        "wires": []
+    },
+    {
+        "id": "codex_clean_stecker_on",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "Stecker ON",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"state\":\"ON\"}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 190,
+        "wires": [
+            [
+                "codex_clean_stecker_out"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_stecker_off",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "Stecker OFF",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"state\":\"OFF\"}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 230,
+        "wires": [
+            [
+                "codex_clean_stecker_out"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_stecker_out",
+        "type": "mqtt out",
+        "z": "codex_clean_flow",
+        "name": "MQTT -> Stecker",
+        "topic": "zigbee2mqtt/stecker/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e8add8b2ffa395eb",
+        "x": 520,
+        "y": 210,
+        "wires": []
+    },
+    {
+        "id": "codex_clean_comment_presence",
+        "type": "comment",
+        "z": "codex_clean_flow",
+        "name": "Presence -> Lamp, gated by automation",
+        "info": "",
+        "x": 230,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "codex_clean_presence_in",
+        "type": "mqtt in",
+        "z": "codex_clean_flow",
+        "name": "MQTT presence",
+        "topic": "zigbee2mqtt/presence",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "e8add8b2ffa395eb",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 570,
+        "wires": [
+            [
+                "codex_clean_presence_switch"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_presence_switch",
+        "type": "switch",
+        "z": "codex_clean_flow",
+        "name": "occupancy true/false",
+        "property": "payload.occupancy",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 410,
+        "y": 570,
+        "wires": [
+            [
+                "codex_clean_lamp_auto_gate_on"
+            ],
+            [
+                "codex_clean_presence_off_delay"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_presence_off_delay",
+        "type": "delay",
+        "z": "codex_clean_flow",
+        "name": "60 min no presence",
+        "pauseType": "delay",
+        "timeout": "60",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 420,
+        "y": 620,
+        "wires": [
+            [
+                "codex_clean_lamp_auto_gate_off"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_comment_manual_lamp",
+        "type": "comment",
+        "z": "codex_clean_flow",
+        "name": "Lamp manual + automation override",
+        "info": "",
+        "x": 210,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "codex_clean_lamp_on",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "Lampe ON + Auto EIN",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"state\":\"ON\"}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 740,
+        "wires": [
+            [
+                "codex_clean_lamp_state_on"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_lamp_off",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "Lampe OFF + Auto AUS",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"state\":\"OFF\"}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 800,
+        "wires": [
+            [
+                "codex_clean_lamp_auto_manual_off"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_lamp_state_on",
+        "type": "change",
+        "z": "codex_clean_flow",
+        "name": "Lampe payload ON + Auto EIN",
+        "rules": [
+            {
+                "t": "set",
+                "p": "lamp_auto_enabled",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"state\":\"ON\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 900,
+        "y": 550,
+        "wires": [
+            [
+                "codex_clean_lamp_out"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_lamp_state_off",
+        "type": "change",
+        "z": "codex_clean_flow",
+        "name": "Lampe payload OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"state\":\"OFF\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 900,
+        "y": 620,
+        "wires": [
+            [
+                "codex_clean_lamp_out"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_lamp_out",
+        "type": "mqtt out",
+        "z": "codex_clean_flow",
+        "name": "MQTT -> Lampe",
+        "topic": "zigbee2mqtt/lampe/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e8add8b2ffa395eb",
+        "x": 1150,
+        "y": 650,
+        "wires": []
+    },
+    {
+        "id": "codex_clean_comment_color",
+        "type": "comment",
+        "z": "codex_clean_flow",
+        "name": "Color stepper",
+        "info": "",
+        "x": 160,
+        "y": 910,
+        "wires": []
+    },
+    {
+        "id": "codex_clean_next_color",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "Nächste Farbe",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 960,
+        "wires": [
+            [
+                "codex_clean_next_color_fn"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_next_color_fn",
+        "type": "function",
+        "z": "codex_clean_flow",
+        "name": "Farbe weiter",
+        "func": "const colors = [\n    { name: \"rot\",     hue: 0,   saturation: 100 },\n    { name: \"orange\",  hue: 30,  saturation: 100 },\n    { name: \"gelb\",    hue: 60,  saturation: 100 },\n    { name: \"gruen\",   hue: 120, saturation: 100 },\n    { name: \"cyan\",    hue: 180, saturation: 100 },\n    { name: \"blau\",    hue: 240, saturation: 100 },\n    { name: \"violett\", hue: 280, saturation: 100 },\n    { name: \"pink\",    hue: 320, saturation: 100 }\n];\n\nlet index = flow.get(\"lamp_color_index\") || 0;\nlet color = colors[index];\n\nmsg.topic = \"zigbee2mqtt/lampe/set\";\nmsg.payload = {\n    state: \"ON\",\n    brightness: 180,\n    color: {\n        hue: color.hue,\n        saturation: color.saturation\n    },\n    transition: 1\n};\n\nnode.status({\n    fill: \"blue\",\n    shape: \"dot\",\n    text: color.name\n});\n\nflow.set(\"lamp_color_index\", (index + 1) % colors.length);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 960,
+        "wires": [
+            [
+                "codex_clean_lamp_out",
+                "codex_clean_color_debug"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_color_debug",
+        "type": "debug",
+        "z": "codex_clean_flow",
+        "name": "Debug Farbe",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "codex_clean_comment_scenes",
+        "type": "comment",
+        "z": "codex_clean_flow",
+        "name": "Lamp scenes - one merged engine",
+        "info": "",
+        "x": 220,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "codex_clean_scene_rainbow_start",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "🌈 Rainbow START",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"rainbow_start\"}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 1080,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_rainbow_stop",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "⛔ Rainbow STOP",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"rainbow_stop\"}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 1120,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_rainbow_tick",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "⏱ Rainbow Timing alle 1s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"rainbow_tick\"}",
+        "payloadType": "json",
+        "x": 220,
+        "y": 1160,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_chill",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "🟠 Chill Warm",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"chill\"}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 1220,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_blue_night",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "🔵 Nachtmodus Blau",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"blue_night\"}",
+        "payloadType": "json",
+        "x": 210,
+        "y": 1260,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_warm_night",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "Warm Nachtmodus",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"night\"}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 1300,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_candle_start",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "🕯️ Kerze START",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"candle_start\"}",
+        "payloadType": "json",
+        "x": 200,
+        "y": 1360,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_candle_stop",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "⛔ Kerze STOP",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"candle_stop\"}",
+        "payloadType": "json",
+        "x": 200,
+        "y": 1400,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_candle_tick",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "⏱ Kerzen Timing alle 0.7s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "0.7",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"candle_tick\"}",
+        "payloadType": "json",
+        "x": 230,
+        "y": 1440,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_candle_static",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "Kerze statisch",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"candle\"}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 1480,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_bath_bright",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "🚿 Bad Hell",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"bath_bright\"}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 1540,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_cyberpunk",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "🟣 Cyberpunk",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"cyberpunk\"}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 1580,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_alarm",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "🔴 Alarm Rot",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"alarm\"}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 1620,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_party",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "⚡ Party Pulse",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"party\"}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 1660,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_off",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "💡 Lampe AUS",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"cmd\":\"off\"}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 1720,
+        "wires": [
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_engine",
+        "type": "function",
+        "z": "codex_clean_flow",
+        "name": "Lampenszenen Engine (clean)",
+        "func": "const cmd = msg.payload && msg.payload.cmd;\n\n// === ANPASSBARE WERTE ===\nconst RAINBOW_BRIGHTNESS = 170;\nconst RAINBOW_SATURATION = 100;\nconst RAINBOW_HUE_STEP = 4;       // kleiner = ruhiger, größer = schneller/fetziger\nconst RAINBOW_TRANSITION = 1.2;   // sollte ungefähr zum Timing passen\n\nconst BLUE_NIGHT_HUE = 235;\nconst BLUE_NIGHT_SATURATION = 100;\nconst BLUE_NIGHT_BRIGHTNESS = 35; // 1-254\n\nconst CANDLE_HUE_MIN = 22;\nconst CANDLE_HUE_MAX = 38;\nconst CANDLE_BRIGHTNESS_MIN = 35;\nconst CANDLE_BRIGHTNESS_MAX = 95;\nconst CANDLE_TRANSITION_MIN = 0.15;\nconst CANDLE_TRANSITION_MAX = 0.8;\n\nfunction randomBetween(min, max) {\n    return min + Math.random() * (max - min);\n}\n\nfunction randomInt(min, max) {\n    return Math.round(randomBetween(min, max));\n}\n\nfunction stopAnimations() {\n    flow.set(\"rainbow_running_v2\", false);\n    flow.set(\"candle_running_v2\", false);\n}\n\nfunction sendColor(label, hue, saturation, brightness, transition) {\n    msg.payload = {\n        state: \"ON\",\n        brightness: brightness,\n        color: {\n            hue: hue,\n            saturation: saturation\n        },\n        transition: transition\n    };\n    node.status({ fill: \"blue\", shape: \"dot\", text: label });\n    return msg;\n}\n\nfunction sendWhite(label, colorTemp, brightness, transition) {\n    msg.payload = {\n        state: \"ON\",\n        brightness: brightness,\n        color_temp: colorTemp,\n        transition: transition\n    };\n    node.status({ fill: \"yellow\", shape: \"dot\", text: label });\n    return msg;\n}\n\nif (cmd === \"rainbow_start\") {\n    flow.set(\"candle_running_v2\", false);\n    flow.set(\"rainbow_running_v2\", true);\n\n    let hue = flow.get(\"rainbow_hue_v2\");\n    if (typeof hue !== \"number\") hue = 0;\n\n    return sendColor(\"Rainbow läuft\", hue, RAINBOW_SATURATION, RAINBOW_BRIGHTNESS, RAINBOW_TRANSITION);\n}\n\nif (cmd === \"rainbow_stop\") {\n    flow.set(\"rainbow_running_v2\", false);\n    node.status({ fill: \"grey\", shape: \"ring\", text: \"Rainbow aus\" });\n    return null;\n}\n\nif (cmd === \"rainbow_tick\") {\n    if (!flow.get(\"rainbow_running_v2\")) return null;\n\n    let hue = flow.get(\"rainbow_hue_v2\");\n    if (typeof hue !== \"number\") hue = 0;\n\n    hue = (hue + RAINBOW_HUE_STEP) % 360;\n    flow.set(\"rainbow_hue_v2\", hue);\n\n    return sendColor(\"Rainbow hue \" + Math.round(hue), hue, RAINBOW_SATURATION, RAINBOW_BRIGHTNESS, RAINBOW_TRANSITION);\n}\n\nif (cmd === \"blue_night\") {\n    stopAnimations();\n    return sendColor(\"Blauer Nachtmodus\", BLUE_NIGHT_HUE, BLUE_NIGHT_SATURATION, BLUE_NIGHT_BRIGHTNESS, 1.5);\n}\n\nif (cmd === \"candle_start\") {\n    flow.set(\"rainbow_running_v2\", false);\n    flow.set(\"candle_running_v2\", true);\n    return sendColor(\"Kerze startet\", 30, 100, 65, 0.3);\n}\n\nif (cmd === \"candle_stop\") {\n    flow.set(\"candle_running_v2\", false);\n    node.status({ fill: \"grey\", shape: \"ring\", text: \"Kerze aus\" });\n    return null;\n}\n\nif (cmd === \"candle_tick\") {\n    if (!flow.get(\"candle_running_v2\")) return null;\n\n    const hue = randomInt(CANDLE_HUE_MIN, CANDLE_HUE_MAX);\n    const brightness = randomInt(CANDLE_BRIGHTNESS_MIN, CANDLE_BRIGHTNESS_MAX);\n    const transition = randomBetween(CANDLE_TRANSITION_MIN, CANDLE_TRANSITION_MAX);\n\n    return sendColor(\"Kerze \" + brightness, hue, 100, brightness, transition);\n}\n\nif (cmd === \"bath_bright\") {\n    stopAnimations();\n    return sendWhite(\"Bad hell\", 250, 254, 0.5);\n}\n\nif (cmd === \"off\") {\n    stopAnimations();\n    flow.set(\"lamp_auto_enabled\", false);\n    msg.payload = { state: \"OFF\" };\n    node.status({ fill: \"grey\", shape: \"ring\", text: \"aus\" });\n    return msg;\n}\n\nif (cmd === \"chill\") {\n    stopAnimations();\n    return sendWhite(\"Chill warm\", 370, 120, 1);\n}\n\nif (cmd === \"night\") {\n    stopAnimations();\n    return sendColor(\"Nachtmodus warm\", 30, 100, 25, 1);\n}\n\nif (cmd === \"cyberpunk\") {\n    stopAnimations();\n    return sendColor(\"Cyberpunk\", 285, 100, 200, 1);\n}\n\nif (cmd === \"alarm\") {\n    stopAnimations();\n    return sendColor(\"Alarm rot\", 0, 100, 254, 0.2);\n}\n\nif (cmd === \"candle\") {\n    stopAnimations();\n    return sendColor(\"Kerze statisch\", 28, 100, 70, 2);\n}\n\nif (cmd === \"party\") {\n    stopAnimations();\n    const hues = [0, 300, 220, 120, 40];\n    const hue = hues[Math.floor(Math.random() * hues.length)];\n    return sendColor(\"Party\", hue, 100, 254, 0.1);\n}\n\nnode.status({ fill: \"red\", shape: \"ring\", text: \"unbekannt: \" + cmd });\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 1400,
+        "wires": [
+            [
+                "codex_clean_scene_debug",
+                "codex_clean_lamp_out"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_scene_debug",
+        "type": "debug",
+        "z": "codex_clean_flow",
+        "name": "Debug Szenen clean",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "codex_clean_day_comment",
+        "type": "comment",
+        "z": "codex_clean_flow",
+        "name": "Daytime -> Stecker + Bad Hell",
+        "info": "Tagsueber sendet der Daytime-Node zusaetzlich die bestehende Bad-Hell-Szene: weiss, brightness 254. Nachts bleibt nur Stecker OFF.",
+        "x": 180,
+        "y": 310,
+        "wires": []
+    },
+    {
+        "id": "codex_clean_daytime",
+        "type": "sunrise",
+        "z": "codex_clean_flow",
+        "name": "Daytime sunrise/sunset",
+        "lat": "48.7758",
+        "lon": "9.1829",
+        "start": "sunrise",
+        "end": "sunset",
+        "soff": 0,
+        "eoff": 0,
+        "sendAtStartup": true,
+        "x": 170,
+        "y": 370,
+        "wires": [
+            [
+                "codex_clean_day_to_stecker"
+            ],
+            [
+                "codex_clean_day_to_stecker"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_day_to_stecker",
+        "type": "function",
+        "z": "codex_clean_flow",
+        "name": "Day/Night -> Stecker + Bad Hell",
+        "func": "if (flow.get(\"auto_day_enabled\") === false) {\n    node.status({ fill: \"grey\", shape: \"ring\", text: \"Day auto AUS\" });\n    return null;\n}\n\nconst payload = msg.payload;\nconst topic = String(msg.topic || msg.event || (payload && payload.event) || \"\").toLowerCase();\nlet isDay;\n\n// Preserve the old intended mapping: payload \"0\" -> day, payload \"1\" -> night.\nif (payload === 0 || payload === \"0\") {\n    isDay = true;\n} else if (payload === 1 || payload === \"1\") {\n    isDay = false;\n} else if (payload === true || payload === \"day\" || payload === \"daytime\" || payload === \"sunrise\") {\n    isDay = true;\n} else if (payload === false || payload === \"night\" || payload === \"nighttime\" || payload === \"sunset\") {\n    isDay = false;\n} else if (topic.includes(\"sunrise\") || topic.includes(\"start\")) {\n    isDay = true;\n} else if (topic.includes(\"sunset\") || topic.includes(\"end\")) {\n    isDay = false;\n} else {\n    node.warn(\"Unknown Day/Night payload: \" + JSON.stringify(payload));\n    return null;\n}\n\nflow.set(\"daytime_is_day\", isDay);\n\nconst steckerMsg = Object.assign({}, msg, {\n    payload: { state: isDay ? \"ON\" : \"OFF\" }\n});\n\nif (isDay) {\n    const lampMsg = Object.assign({}, msg, {\n        payload: { cmd: \"bath_bright\" }\n    });\n    node.status({ fill: \"yellow\", shape: \"dot\", text: \"Tag -> Stecker ON + Bad Hell\" });\n    return [steckerMsg, lampMsg];\n}\n\nnode.status({ fill: \"blue\", shape: \"dot\", text: \"Nacht -> Stecker OFF\" });\nreturn [steckerMsg, null];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 370,
+        "wires": [
+            [
+                "codex_clean_stecker_out"
+            ],
+            [
+                "codex_clean_scene_engine"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_day_auto_on",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "Day auto EIN",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 430,
+        "wires": [
+            [
+                "codex_clean_day_auto_enable"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_day_auto_enable",
+        "type": "change",
+        "z": "codex_clean_flow",
+        "name": "set auto_day_enabled true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "auto_day_enabled",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 430,
+        "y": 430,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "codex_clean_day_auto_off",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "Day auto AUS",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 470,
+        "wires": [
+            [
+                "codex_clean_day_auto_disable"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_day_auto_disable",
+        "type": "change",
+        "z": "codex_clean_flow",
+        "name": "set auto_day_enabled false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "auto_day_enabled",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 430,
+        "y": 470,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "codex_clean_lamp_auto_gate_on",
+        "type": "function",
+        "z": "codex_clean_flow",
+        "name": "Auto gate ON",
+        "func": "if (flow.get(\"lamp_auto_enabled\") === false) {\n    node.status({ fill: \"grey\", shape: \"ring\", text: \"Auto AUS\" });\n    return null;\n}\n\nnode.status({ fill: \"green\", shape: \"dot\", text: \"Auto EIN\" });\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 550,
+        "wires": [
+            [
+                "codex_clean_lamp_state_on"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_lamp_auto_gate_off",
+        "type": "function",
+        "z": "codex_clean_flow",
+        "name": "Auto gate OFF",
+        "func": "if (flow.get(\"lamp_auto_enabled\") === false) {\n    node.status({ fill: \"grey\", shape: \"ring\", text: \"Auto AUS\" });\n    return null;\n}\n\nnode.status({ fill: \"green\", shape: \"dot\", text: \"Auto EIN\" });\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 620,
+        "wires": [
+            [
+                "codex_clean_lamp_state_off"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_lamp_auto_manual_off",
+        "type": "change",
+        "z": "codex_clean_flow",
+        "name": "Auto AUS + Lampe OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "lamp_auto_enabled",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"state\":\"OFF\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 800,
+        "wires": [
+            [
+                "codex_clean_lamp_out"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_lamp_auto_on_button",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "Automatik EIN",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 860,
+        "wires": [
+            [
+                "codex_clean_lamp_auto_enable"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_lamp_auto_enable",
+        "type": "change",
+        "z": "codex_clean_flow",
+        "name": "set lamp_auto_enabled true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "lamp_auto_enabled",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 430,
+        "y": 860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "codex_clean_lamp_auto_off_button",
+        "type": "inject",
+        "z": "codex_clean_flow",
+        "name": "Automatik AUS",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 900,
+        "wires": [
+            [
+                "codex_clean_lamp_auto_disable"
+            ]
+        ]
+    },
+    {
+        "id": "codex_clean_lamp_auto_disable",
+        "type": "change",
+        "z": "codex_clean_flow",
+        "name": "set lamp_auto_enabled false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "lamp_auto_enabled",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 430,
+        "y": 900,
+        "wires": [
+            []
+        ]
+    }
+]
