@@ -1476,37 +1476,26 @@
     },
     {
         "id": "codex_clean_lamp_state_on",
-        "type": "change",
+        "type": "function",
         "z": "codex_clean_flow",
-        "name": "Lampe payload ON + Auto EIN",
-        "rules": [
-            {
-                "t": "set",
-                "p": "lamp_auto_enabled",
-                "pt": "flow",
-                "to": "true",
-                "tot": "bool"
-            },
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{\"state\":\"ON\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
+        "name": "Lampe ON: tagsueber Bad Hell",
         "x": 900,
         "y": 550,
         "wires": [
             [
                 "codex_clean_lamp_out"
+            ],
+            [
+                "codex_clean_scene_engine"
             ]
-        ]
+        ],
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "func": "flow.set(\"lamp_auto_enabled\", true);\n\nif (flow.get(\"daytime_is_day\") === true) {\n    msg.payload = { cmd: \"bath_bright\" };\n    node.status({ fill: \"yellow\", shape: \"dot\", text: \"Tag -> Bad Hell\" });\n    return [null, msg];\n}\n\nmsg.payload = { state: \"ON\" };\nnode.status({ fill: \"blue\", shape: \"dot\", text: \"Nacht/unklar -> normal ON\" });\nreturn [msg, null];"
     },
     {
         "id": "codex_clean_lamp_state_off",
@@ -2053,8 +2042,8 @@
         "id": "codex_clean_day_comment",
         "type": "comment",
         "z": "codex_clean_flow",
-        "name": "Daytime -> Stecker + Bad Hell",
-        "info": "Tagsueber sendet der Daytime-Node zusaetzlich die bestehende Bad-Hell-Szene: weiss, brightness 254. Nachts bleibt nur Stecker OFF.",
+        "name": "Daytime -> Status + Stecker",
+        "info": "Daytime setzt nur daytime_is_day und schaltet den Stecker. Die Lampe wird dadurch nicht eingeschaltet; Bad Hell wird nur beim Lampen-ON tagsueber verwendet.",
         "x": 180,
         "y": 310,
         "wires": []
@@ -2086,9 +2075,9 @@
         "id": "codex_clean_day_to_stecker",
         "type": "function",
         "z": "codex_clean_flow",
-        "name": "Day/Night -> Stecker + Bad Hell",
-        "func": "if (flow.get(\"auto_day_enabled\") === false) {\n    node.status({ fill: \"grey\", shape: \"ring\", text: \"Day auto AUS\" });\n    return null;\n}\n\nconst payload = msg.payload;\nconst topic = String(msg.topic || msg.event || (payload && payload.event) || \"\").toLowerCase();\nlet isDay;\n\n// Preserve the old intended mapping: payload \"0\" -> day, payload \"1\" -> night.\nif (payload === 0 || payload === \"0\") {\n    isDay = true;\n} else if (payload === 1 || payload === \"1\") {\n    isDay = false;\n} else if (payload === true || payload === \"day\" || payload === \"daytime\" || payload === \"sunrise\") {\n    isDay = true;\n} else if (payload === false || payload === \"night\" || payload === \"nighttime\" || payload === \"sunset\") {\n    isDay = false;\n} else if (topic.includes(\"sunrise\") || topic.includes(\"start\")) {\n    isDay = true;\n} else if (topic.includes(\"sunset\") || topic.includes(\"end\")) {\n    isDay = false;\n} else {\n    node.warn(\"Unknown Day/Night payload: \" + JSON.stringify(payload));\n    return null;\n}\n\nflow.set(\"daytime_is_day\", isDay);\n\nconst steckerMsg = Object.assign({}, msg, {\n    payload: { state: isDay ? \"ON\" : \"OFF\" }\n});\n\nif (isDay) {\n    const lampMsg = Object.assign({}, msg, {\n        payload: { cmd: \"bath_bright\" }\n    });\n    node.status({ fill: \"yellow\", shape: \"dot\", text: \"Tag -> Stecker ON + Bad Hell\" });\n    return [steckerMsg, lampMsg];\n}\n\nnode.status({ fill: \"blue\", shape: \"dot\", text: \"Nacht -> Stecker OFF\" });\nreturn [steckerMsg, null];",
-        "outputs": 2,
+        "name": "Day/Night -> Status + Stecker",
+        "func": "if (flow.get(\"auto_day_enabled\") === false) {\n    node.status({ fill: \"grey\", shape: \"ring\", text: \"Day auto AUS\" });\n    return null;\n}\n\nconst payload = msg.payload;\nconst topic = String(msg.topic || msg.event || (payload && payload.event) || \"\").toLowerCase();\nlet isDay;\n\n// Preserve the old intended mapping: payload \"0\" -> day, payload \"1\" -> night.\nif (payload === 0 || payload === \"0\") {\n    isDay = true;\n} else if (payload === 1 || payload === \"1\") {\n    isDay = false;\n} else if (payload === true || payload === \"day\" || payload === \"daytime\" || payload === \"sunrise\") {\n    isDay = true;\n} else if (payload === false || payload === \"night\" || payload === \"nighttime\" || payload === \"sunset\") {\n    isDay = false;\n} else if (topic.includes(\"sunrise\") || topic.includes(\"start\")) {\n    isDay = true;\n} else if (topic.includes(\"sunset\") || topic.includes(\"end\")) {\n    isDay = false;\n} else {\n    node.warn(\"Unknown Day/Night payload: \" + JSON.stringify(payload));\n    return null;\n}\n\nflow.set(\"daytime_is_day\", isDay);\nmsg.payload = { state: isDay ? \"ON\" : \"OFF\" };\n\nnode.status({\n    fill: isDay ? \"yellow\" : \"blue\",\n    shape: \"dot\",\n    text: isDay ? \"Tag gespeichert -> Stecker ON\" : \"Nacht gespeichert -> Stecker OFF\"\n});\n\nreturn msg;",
+        "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
@@ -2099,9 +2088,6 @@
         "wires": [
             [
                 "codex_clean_stecker_out"
-            ],
-            [
-                "codex_clean_scene_engine"
             ]
         ]
     },
